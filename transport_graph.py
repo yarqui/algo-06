@@ -14,6 +14,7 @@ def analyze_graph(graph):
     degree_centrality = nx.degree_centrality(graph)
     betweenness_centrality = nx.betweenness_centrality(graph)
 
+    # BFS & DFS
     source = "Miami"
     bfs_tree = nx.bfs_tree(graph, source)
     dfs_tree = nx.dfs_tree(graph, source)
@@ -29,6 +30,14 @@ def analyze_graph(graph):
 
     for target in dfs_tree.nodes:
         print(f"DFS path to {target}:", nx.shortest_path(dfs_tree, source, target))
+
+    # Dijkstra
+    print("\nDijkstra's shortest path lengths from each city:")
+    for source in graph.nodes:
+        lengths = nx.single_source_dijkstra_path_length(graph, source)
+        print(f"\nFrom {source}:")
+        for target, distance in lengths.items():
+            print(f"  to {target}: {distance} miles")
 
 
 def draw_graph(graph):
