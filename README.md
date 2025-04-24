@@ -2,55 +2,73 @@
 
 ## Overview
 
-This project models a real-world inter-city transportation network in South Florida using the `networkx` Python library. Cities like **Miami**, **Hialeah**, **Hollywood**, **Dania Beach**, **Fort Lauderdale**, **Miramar**, and **Pembroke Pines** are represented as graph nodes. The roads between them are weighted edges indicating distances in miles.
+This project models a transportation network in South Florida using Python and NetworkX. Cities such as **Miami**, **Fort Lauderdale**, **Hollywood**, and others are represented as nodes. Roads connecting them are edges with distances in miles.
 
-We perform the following tasks:
+The graph is analyzed using graph algorithms including:
 
-- Graph construction and visualization
-- Graph analysis using centrality metrics
-- BFS and DFS traversals using `networkx.bfs_tree()` and `networkx.dfs_tree()`
-- Comparison of BFS and DFS traversal paths from a common source
-
----
-
-## Algorithms Used
-
-### Breadth-First Search (BFS)
-
-- Explores neighbors level-by-level
-- Produces the shortest-path tree in terms of number of edges
-- Implemented using `nx.bfs_tree()`
-
-### Depth-First Search (DFS)
-
-- Explores as deeply as possible before backtracking
-- Produces a different tree structure compared to BFS
-- Implemented using `nx.dfs_tree()`
+- **Breadth-First Search (BFS)**
+- **Depth-First Search (DFS)**
+- **Dijkstra’s Algorithm** for shortest path computation
 
 ---
 
-## Example Output (From Source: Miami)
+## Algorithms Implemented
+
+### ✅ DFS (Depth-First Search)
+
+- Implemented manually using a stack
+- Explores as far as possible along a branch before backtracking
+
+### ✅ BFS (Breadth-First Search)
+
+- Implemented manually using a queue
+- Explores neighbors level by level
+
+### ✅ Dijkstra's Algorithm (manual)
+
+- Computes the shortest distance from each city to all others
+- Uses a priority-selection approach over unvisited nodes
+- Displays distances in miles
+
+---
+
+## Graph Properties Computed
+
+- **Number of Nodes and Edges**
+- **Degree Centrality**
+- **Betweenness Centrality**
+
+These help identify critical hubs and high-traffic routes in the network.
+
+---
+
+## Sample Output (Shortened for Display)
 
 ```
-BFS path to Dania Beach: ['Miami', 'Hollywood', 'Dania Beach']
-DFS path to Dania Beach: ['Miami', 'Miramar', 'Dania Beach']
+DFS path from Fort Lauderdale:
+  Fort Lauderdale
+  Dania Beach
+  Hollywood
+  Pembroke Pines
+  Miramar
+  Hialeah
+  Miami
+
+BFS path from Fort Lauderdale:
+  Fort Lauderdale
+  Dania Beach
+  Hollywood
+  Miramar
+  Pembroke Pines
+  Miami
+  Hialeah
+
+Dijkstra's shortest path lengths from each city:
+From Miami:
+  to Hialeah: 14 miles
+  to Hollywood: 32 miles
+  ...
 ```
-
-As you can see:
-
-- BFS prefers **level-wise exploration**, choosing Hollywood before going to Dania Beach.
-- DFS goes **deep first**, reaching Miramar and then Dania Beach.
-
-This highlights how traversal order depends on algorithm strategy.
-
----
-
-## Analysis Metrics
-
-- **Degree Centrality**: Reflects how many immediate connections a node has.
-- **Betweenness Centrality**: Measures how often a node appears on shortest paths between other nodes.
-
-These are printed for all nodes, allowing identification of key hubs (e.g., **Miramar**, **Hialeah**).
 
 ---
 
@@ -60,7 +78,7 @@ These are printed for all nodes, allowing identification of key hubs (e.g., **Mi
 - `networkx`
 - `matplotlib`
 
-Install them using:
+Install with:
 
 ```bash
 pip install networkx matplotlib
@@ -76,15 +94,14 @@ Run:
 python transport_graph.py
 ```
 
-This will:
+---
 
-- Analyze the graph
-- Print centrality metrics
-- Show BFS and DFS paths from **Miami**
-- Visualize the inter-city graph
+## Visualization
+
+A spring layout visual of the transportation network is rendered using Matplotlib.
 
 ---
 
 ## Author
 
-Graph theory exploration project for coursework or educational demonstration.
+Coursework project demonstrating manual graph traversal and analysis in Python.
