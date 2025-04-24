@@ -1,3 +1,4 @@
+from collections import deque
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -14,30 +15,73 @@ def analyze_graph(graph):
     degree_centrality = nx.degree_centrality(graph)
     betweenness_centrality = nx.betweenness_centrality(graph)
 
-    # BFS & DFS
-    source = "Miami"
-    bfs_tree = nx.bfs_tree(graph, source)
-    dfs_tree = nx.dfs_tree(graph, source)
-
     print("Number of edges:", num_edges)
     print("Number of vertices:", num_nodes)
     print("\nCentrality degree:", degree_centrality)
     print("Betweenness centrality:", betweenness_centrality)
 
-    print("\nSearching paths from Miami using NetworkX methods:")
-    for target in bfs_tree.nodes:
-        print(f"BFS path to {target}:", nx.shortest_path(bfs_tree, source, target))
-
-    for target in dfs_tree.nodes:
-        print(f"DFS path to {target}:", nx.shortest_path(dfs_tree, source, target))
+    # BFS & DFS
+    source = "Fort Lauderdale"
+    dfs_path(graph, source)
+    bfs_path(graph, source)
 
     # Dijkstra
     print("\nDijkstra's shortest path lengths from each city:")
     for source in graph.nodes:
-        lengths = nx.single_source_dijkstra_path_length(graph, source)
+        lengths = dijkstra(graph, source)
         print(f"\nFrom {source}:")
         for target, distance in lengths.items():
             print(f"  to {target}: {distance} miles")
+
+
+def dfs_path(graph, start_vertex):
+    visited = set()
+    stack = [start_vertex]
+    print(f"\nDFS path from {start_vertex}: ")
+
+    while stack:
+        vertex = stack.pop()
+        if vertex not in visited:
+            print(f"  {vertex}")
+            visited.add(vertex)
+            neighbors = list(graph[vertex])
+            stack.extend(reversed(neighbors))
+
+
+def bfs_path(graph, start_vertex):
+    visited = set()
+    queue = deque([start_vertex])
+    print(f"\nBFS path from {start_vertex}: ")
+
+    while queue:
+        vertex = queue.popleft()
+        if vertex not in visited:
+            print(f"  {vertex}")
+            visited.add(vertex)
+            queue.extend([n for n in graph[vertex] if n not in visited])
+
+
+def dijkstra(graph, start):
+    distances = {vertex: float("infinity") for vertex in graph}
+    distances[start] = 0
+    unvisited = list(graph.nodes)
+
+    while unvisited:
+        current_vertex = min(unvisited, key=lambda vertex: distances[vertex])
+
+        if distances[current_vertex] == float("infinity"):
+            break
+
+        for neighbor, attrs in graph[current_vertex].items():
+            weight = attrs["weight"]
+            distance = distances[current_vertex] + weight
+
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+
+        unvisited.remove(current_vertex)
+
+    return distances
 
 
 def draw_graph(graph):
